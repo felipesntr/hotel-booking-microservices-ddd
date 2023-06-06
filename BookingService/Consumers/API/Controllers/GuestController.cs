@@ -32,6 +32,9 @@ namespace API.Controllers
             var res = await _guestManager.CreateGuest(request);
             if (res.Success) return Created("", res.Data);
             if (res.ErrorCode == ErrorCodes.NOT_FOUND) return BadRequest(res);
+            if (res.ErrorCode == ErrorCodes.MISSING_REQUIRED_INFORMATION) return BadRequest(res);
+            if (res.ErrorCode == ErrorCodes.COULD_NOT_STORE_DATA) return BadRequest(res);
+            if (res.ErrorCode == ErrorCodes.INVALID_EMAIL) return BadRequest(res);
             _logger.LogError("Response with unknown ErrorCode Returned", res);
             return BadRequest(500);
         }
