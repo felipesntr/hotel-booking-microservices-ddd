@@ -38,5 +38,13 @@ namespace API.Controllers
             _logger.LogError("Response with unknown ErrorCode Returned", res);
             return BadRequest(500);
         }
+
+        [HttpGet]
+        public async Task<ActionResult<GuestDTO>> Get(int guestId)
+        {
+            var result = await _guestManager.GetGuest(guestId);
+            if (result.Success) return Ok(result.Data);
+            return NotFound(result);
+        }
     }
 }

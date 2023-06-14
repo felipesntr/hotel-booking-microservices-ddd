@@ -5,13 +5,14 @@ namespace Adapters.Data.Guest_
     public class GuestRepository : IGuestRepository
     {
         private HotelDbContext _hotelDbContext;
-        public GuestRepository(HotelDbContext hotelDbContext) {
+        public GuestRepository(HotelDbContext hotelDbContext)
+        {
             _hotelDbContext = hotelDbContext;
         }
 
-        public Task<Domain.Entities.Guest> Get(int id)
+        public async Task<Domain.Entities.Guest> Get(int id)
         {
-            throw new NotImplementedException();
+            return await _hotelDbContext.Guests.FindAsync(id);
         }
 
         public async Task<int> Save(Domain.Entities.Guest guest)
