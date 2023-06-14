@@ -20,21 +20,22 @@ namespace Domain.Entities
 
         private void ValidateState()
         {
-            if (DocumentId == null || DocumentId.IdNumber.Length <= 3 || DocumentId.DocumentType == 0)
+            if (string.IsNullOrEmpty(DocumentId.IdNumber) || DocumentId.IdNumber.Length <= 3 || DocumentId.DocumentType == 0)
                 throw new InvalidPersonDocumentIdException();
             if (Name == null || Surname == null || Email == null)
                 throw new MissingRequiredInformation();
             if (!Utils.ValidateEmail(Email))
-                throw new Exception();
+                throw new Exception("Invalid email");
         }
 
         public async Task Save(IGuestRepository guestRepository)
         {
             this.ValidateState();
-            if(this.Id == 0)
+            if (this.Id == 0)
             {
                 this.Id = await guestRepository.Save(this);
-            } else
+            }
+            else
             {
                 //await guestRepository.Update(this);
             }
